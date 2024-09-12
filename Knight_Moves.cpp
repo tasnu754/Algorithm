@@ -1,54 +1,61 @@
-#include <bits/stdc++.h>
+#include<bits/stdc++.h>
 
 using namespace std;
 
-const int N = 8; // Size of the chessboard
-bool vis[N][N];
-int dis[N][N];
+
+int n, m;
+bool vis[100][100];
+int dis[100][100];
 vector<pair<int, int>> d = {{-2,1},{-2,-1},{2,1},{2,-1}, {-1,2}, {1,2}, {-1,-2}, {1,-2}};
 
-bool isInvalid(int i, int j) {
-    return (i < 0 || i >= N || j < 0 || j >= N);
+bool isInvalid(int i, int j){
+
+    return(i<0 || i>=n|| j<0 || j>=m);
 }
 
-void bfs(int si, int sj) {
+void bfs(int si, int sj){
+
     queue<pair<int, int>> q;
-    q.push({si, sj});
+    q.push({si,sj});
     vis[si][sj] = true;
     dis[si][sj] = 0;
 
-    while (!q.empty()) {
+    while(!q.empty()){
         pair<int, int> p = q.front();
         q.pop();
         int pi = p.first;
         int pj = p.second;
 
-        for (auto& move : d) {
-            int ci = pi + move.first;
-            int cj = pj + move.second;
+        for(int i=0; i<8; i++){
+            int ci = pi + d[i].first;
+            int cj = pj + d[i].second;
 
-            if (!isInvalid(ci, cj) && !vis[ci][cj]) {
-                q.push({ci, cj});
+            if(!vis[ci][cj] && !isInvalid(ci,cj)){
+                q.push({ci,cj});
                 dis[ci][cj] = dis[pi][pj] + 1;
                 vis[ci][cj] = true;
             }
         }
     }
+
 }
 
-int main() {
+int main(){
+
     int t;
-    cin >> t;
-    while (t--) {
+    cin>>t;
+    while(t--){
         memset(vis, false, sizeof(vis));
         memset(dis, -1, sizeof(dis));
 
         int si, sj, di, dj;
-        cin >> si >> sj >> di >> dj;
+        cin>>n>>m>>si>>sj>>di>>dj;
 
         bfs(si, sj);
 
-        cout << dis[di][dj] << endl;
+
+        cout<<dis[di][dj]<<endl;
+
     }
 
     return 0;
